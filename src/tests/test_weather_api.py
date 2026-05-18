@@ -1,5 +1,6 @@
 import pytest_tutorial.main as main
 
+
 def test_get_weather_api(mocker):
     # Mock requests.get
     mock_get = mocker.patch("pytest_tutorial.main.requests.get")

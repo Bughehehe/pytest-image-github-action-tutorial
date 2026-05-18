@@ -1,35 +1,41 @@
 from typing import Optional
 import requests
 
+
 def get_weather(temp: int) -> str:
     if temp > 20:
-        return 'hot'
+        return "hot"
     else:
-        return 'cold'
-    
+        return "cold"
+
+
 def add(a: float, b: float) -> float:
     return a + b
 
+
 def divide(a: float, b: float) -> float:
     if b == 0:
-        raise ValueError('Cannot divide by zero')
-    return a/b
+        raise ValueError("Cannot divide by zero")
+    return a / b
 
-class UserManager():
+
+class UserManager:
     def __init__(self):
         self.users = {}
 
-    def add_user(self, username: str, email:str) -> bool:
+    def add_user(self, username: str, email: str) -> bool:
         if username in self.users:
-            raise ValueError('User already exists')
+            raise ValueError("User already exists")
         self.users[username] = email
         return True
-    
+
     def get_user(self, username: str) -> str:
         return self.users.get(username)
-    
+
+
 class Database:
-    """ Simulates basic in memory database """
+    """Simulates basic in memory database"""
+
     def __init__(self):
         self.data = {}
 
@@ -39,20 +45,22 @@ class Database:
         self.data[user_id] = name
         # return True
 
-    def get_user(self, user_id: int) -> Optional[str]: # returns str or None
+    def get_user(self, user_id: int) -> Optional[str]:  # returns str or None
         return self.data.get(user_id, None)
-    
+
     def delete_user(self, user_id: int) -> None:
         if user_id in self.data:
             del self.data[user_id]
 
+
 def is_prime(n: int) -> bool:
     if n < 2:
         return False
-    for i in range(2, int(n ** 0.5) + 1):
+    for i in range(2, int(n**0.5) + 1):
         if n % i == 0:
             return False
     return True
+
 
 def get_weather_api(city: str) -> dict | None:
     try:
@@ -69,4 +77,3 @@ def get_weather_api(city: str) -> dict | None:
         # catches any other requests-related errors
         print("A request error occurred:", e)
     return None
-

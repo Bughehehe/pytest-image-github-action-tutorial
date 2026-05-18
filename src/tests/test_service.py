@@ -1,5 +1,6 @@
 from pytest_tutorial import service as service
 
+
 def test_get_username_with_mock(mocker):
     mock_api_client = mocker.Mock(spec=service.APIClient)
 
