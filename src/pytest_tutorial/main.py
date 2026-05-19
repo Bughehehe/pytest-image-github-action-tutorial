@@ -3,6 +3,7 @@ import requests
 from time import sleep
 from collections.abc import Generator
 
+
 def get_weather(temp: int) -> str:
     if temp > 20:
         return "hot"
@@ -79,6 +80,7 @@ def get_weather_api(city: str) -> dict | None:
         print("A request error occurred:", e)
     return None
 
+
 def get_iteration_number() -> Generator[str, None, None]:
     num = 0
     while True:
@@ -87,9 +89,9 @@ def get_iteration_number() -> Generator[str, None, None]:
 
 
 if __name__ == "__main__":
-    gen = get_iteration_number()   # create generator ONCE
+    gen = get_iteration_number()  # create generator ONCE
     while True:
-        print(next(gen))           # get next value from generator
+        print(next(gen))  # get next value from generator
         sleep(2)
         print("Next Loop")
         sleep(0.5)
