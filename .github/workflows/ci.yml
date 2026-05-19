@@ -27,7 +27,8 @@ jobs:
       - name: Create docker image
         run: |
           echo "Building image:"
-          docker build .
+          docker build . 
+          echo "Pushing image to ..."
 
 
 
