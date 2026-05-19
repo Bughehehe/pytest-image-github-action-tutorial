@@ -1,0 +1,19 @@
+# Git
+.git
+.github
+.gitignore
+
+# Python env and caches
+.venv
+__pycache__
+*.pyc
+.mypy_cache
+.pytest_cache
+.ruff_cache
+.coverage
+src/tests/__pycache__
+src/pytest_tutorial/__pycache__
+
+# Docker files you don't want in context
+old_dockerfiles
+dockerfile

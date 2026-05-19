@@ -1,0 +1,48 @@
+FROM python:3.13-alpine AS base
+
+# ---------- builder ----------
+FROM base AS builder
+
+# uv binary
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+# faster startup, copy mode
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
+
+WORKDIR /app
+
+# 1) Copy only files that affect dependency resolution
+COPY pyproject.toml uv.lock .python-version README.md ./
+
+# 2) Install ONLY dependencies from lockfile (no project yet)
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-install-project
+
+# 3) Now copy the rest of the project (source, tests, etc.)
+COPY . /app
+
+# 4) Install the project itself
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked
+
+# ---------- runtime ----------
+FROM base
+
+WORKDIR /app
+RUN chmod 755 /app
+
+# copy env + app from builder
+COPY --from=builder /app /app
+
+# set a sane home and cache dir for uv
+ENV HOME=/home/appuser \
+    UV_CACHE_DIR=/home/appuser/.cache/uv
+
+# create the home dir and cache parent
+RUN mkdir -p /home/appuser/.cache && \
+    chown -R 405:405 /home/appuser /app
+
+USER 405
+
+CMD ["uv", "run", "src/pytest_tutorial/main.py"]

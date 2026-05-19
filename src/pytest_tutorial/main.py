@@ -1,6 +1,7 @@
 from typing import Optional
 import requests
-
+from time import sleep
+from collections.abc import Generator
 
 def get_weather(temp: int) -> str:
     if temp > 20:
@@ -77,3 +78,19 @@ def get_weather_api(city: str) -> dict | None:
         # catches any other requests-related errors
         print("A request error occurred:", e)
     return None
+
+def get_iteration_number() -> Generator[str, None, None]:
+    num = 0
+    while True:
+        yield f"Hello Word! Number : {num}"
+        num += 1
+
+
+if __name__ == "__main__":
+    gen = get_iteration_number()   # create generator ONCE
+    while True:
+        print(next(gen))           # get next value from generator
+        sleep(2)
+        print("Next Loop")
+        sleep(0.5)
+        print("Wallop!")
